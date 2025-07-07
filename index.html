@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CC-Filmmusikhonorar-Rechner (Orientierungshilfe)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+
+<body class="cc-body">
+
+  <main class="cc-form-page">
+    <section class="form-page-content">
+      <h1 class="h2-custom-cc">🎵 <b>CC-Filmmusikhonorar-Rechner</b></h1>
+      <p><strong>Orientierungshilfe für Composer</strong> - Preisrahmen basierend auf Branchenerfahrung</p>
+
+      <div class="info-box">
+        <h4>💡 Hinweis</h4>
+        <p>Der CC-Honorarechner unterstützt bei der Kalkulation von Filmmusik. Exakte Werte sind nicht berechenbar, da Budgets je nach Projekt stark variieren. Das Musikbudget lässt sich jedoch auf Angemessenheit prüfen. Die angezeigten Honorare basieren auf Erfahrungswerten und stellen keine festen Preise oder Preisabsprachen dar – sie dienen lediglich der groben Einschätzung.. <br><br>
+        
+          Das Tool zeigt an, wie weit GEMA-Ausschüttungen TV-und Streaming-Honorare ausgleichen können.<br><br>
+    
+        </p>
+      </div>
+      <br><br>
+
+      <div class="cc-c1">
+        <!-- Projekttyp -->
+        <div class="nice-form-group">
+          <label for="project-type">Projekttyp</label>
+          <select id="project-type">
+            <option value="spielfilm">Spielfilm (Kino), TV-Film, Doku</option>
+            <option value="serie">Serie/Miniserie</option>
+          </select>
+        </div>
+
+        <!-- Preis-Modell -->
+        <div class="nice-form-group" id="pricing-model-container">
+          <label for="pricing-model">Honorar-Berechnung </label>
+          <select id="pricing-model">
+             <option value="flat">Pauschale (Von Kunden vorgeschlagenes Filmmusik-Budget eintragen)</option>
+            <option value="percent">Prozent vom Produktionsbudget</option>
+           
+            
+          </select>
+        </div>
+      </div>
+
+      <!-- Serie-spezifisch -->
+      <div id="serie-episodes-container" class="cc-c1" style="display:none;">
+        <div class="nice-form-group">
+          <label for="episodes-count">Anzahl Folgen</label>
+          <input type="number" id="episodes-count" min="1" step="1" placeholder="z.B. 6" />
+        </div>
+        <div class="nice-form-group">
+          <label for="serie-pricing-model">Serienmodell</label>
+          <select id="serie-pricing-model">
+            <option value="per-episode">Pauschale pro Folge</option>
+            <option value="flat-total">Gesamtpauschale für Serie</option>
+          </select>
+        </div>
+        <div class="nice-form-group" id="serie-episode-rate-container" style="display:none;">
+          <label for="episode-rate">Pauschale pro Folge (€)</label>
+          <input type="number" id="episode-rate" min="0" step="100" placeholder="z.B. 3000" />
+        </div>
+      </div>
+
+      <!-- Honorar-Eingaben -->
+      <div class="cc-c2">
+        <div id="percent-input" class="nice-form-group">
+          <label for="budget">Produktionsbudget (€)</label>
+          <input id="budget" type="number" min="0" step="1000" placeholder="z.B. 500000" />
+          <br><br>
+          
+         <label for="percentage">Prozentsatz (%)</label>
+<input id="percentage" type="number" min="0" max="100" step="0.1" placeholder="z.B. 2" />
+<div class="info-text">Zur Orientierung: 0,1% bis 5% üblich. Faustregel: Je höher das Budget, desto niedriger der Prozentsatz (Großproduktionen oft unter 1%)</div>
+        </div>
+
+        <div id="flat-input" class="nice-form-group" style="display:none;">
+          <label for="flat-rate">Pauschale (€)</label>
+          <input id="flat-rate" type="number" min="0" step="100" placeholder="z.B. 25000" />
+          <div id="inline-dumping-warning" class="info-text" style="color: red; display: none;">
+  ⚠️ Achtung: Die Pauschale liegt unter 5.000 €. Prüfen, ob dies realistisch ist.
+</div>
+
+          <div class="info-text">
+            <strong>Richtwerte:</strong><br>
+            • Dokumentarfilm: 2.000-15.000€<br>
+            • TV-Film: 8.000-40.000€<br>
+            • Spielfilm: 15.000-100.000€+<br><br>
+            Falls von Kunden ein Angebot für das Filmmusik-Honorar gewünscht wird, ohne dass ein genauer Betrag angegeben wird, dient das Dropdown-Menü ‚Prozent vom Produktionsbudget‘ als hilfreiche Orientierung.<br>
+          </div>
+        </div>
+      </div>
+
+     <!-- Sender/Plattform Multi-Select -->
+<div class="cc-c2">
+  <label><b>Hauptsender/Plattformen</b></label>
+  <div class="info-text">
+    Mehrfachauswahl möglich - Ungefähre Minutenpreise GEMA für deutsche TV-Sender
+  </div>
+  <div class="multiselect-container">
+    <div class="multiselect-dropdown" id="sender-dropdown">
+      <div class="selected-senders-display" id="selected-senders">Sender auswählen...</div>
+      <span class="dropdown-arrow">▼</span>
+    </div>
+    <div class="multiselect-options" id="sender-options">
+  <div class="multiselect-option"><input type="checkbox" id="sender-ard" value="ard" class="sender-checkbox"><label for="sender-ard">ARD (79€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-arte" value="arte" class="sender-checkbox"><label for="sender-arte">ARTE (16€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-bayerischerRundfunk" value="bayerischerRundfunk" class="sender-checkbox"><label for="sender-bayerischerRundfunk">Bayerischer Rundfunk (14€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-deutscheWelle" value="deutscheWelle" class="sender-checkbox"><label for="sender-deutscheWelle">Deutsche Welle (5€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-dmax" value="dmax" class="sender-checkbox"><label for="sender-dmax">DMAX (2€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-disneyChannel" value="disneyChannel" class="sender-checkbox"><label for="sender-disneyChannel">Disney Channel (1€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-hessischerRundfunk" value="hessischerRundfunk" class="sender-checkbox"><label for="sender-hessischerRundfunk">Hessischer Rundfunk (6€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-kabel1" value="kabel1" class="sender-checkbox"><label for="sender-kabel1">Kabel 1 (8€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-kabelEinsDoku" value="kabelEinsDoku" class="sender-checkbox"><label for="sender-kabelEinsDoku">Kabel Eins Doku (1€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-kinderkanal" value="kinderkanal" class="sender-checkbox"><label for="sender-kinderkanal">KiKA (7€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-mdr" value="mdr" class="sender-checkbox"><label for="sender-mdr">MDR (9€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-n24Doku" value="n24Doku" class="sender-checkbox"><label for="sender-n24Doku">N24 Doku (1€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-nationalGeographic" value="nationalGeographic" class="sender-checkbox"><label for="sender-nationalGeographic">National Geographic (1€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-norddeutscherRundfunk" value="norddeutscherRundfunk" class="sender-checkbox"><label for="sender-norddeutscherRundfunk">NDR (19€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-ntv" value="ntv" class="sender-checkbox"><label for="sender-ntv">n-tv (2€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-pro7" value="pro7" class="sender-checkbox"><label for="sender-pro7">ProSieben (17€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-pro7Maxx" value="pro7Maxx" class="sender-checkbox"><label for="sender-pro7Maxx">ProSieben Maxx (2€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-radioBremen" value="radioBremen" class="sender-checkbox"><label for="sender-radioBremen">Radio Bremen (32€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-rtl" value="rtl" class="sender-checkbox"><label for="sender-rtl">RTL (28€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-rtl2" value="rtl2" class="sender-checkbox"><label for="sender-rtl2">RTL II (6€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-rtlCrime" value="rtlCrime" class="sender-checkbox"><label for="sender-rtlCrime">RTL Crime (0€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-rtlNitro" value="rtlNitro" class="sender-checkbox"><label for="sender-rtlNitro">RTL Nitro (3€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-rtlNow" value="rtlNow" class="sender-checkbox"><label for="sender-rtlNow">RTL Now (0€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-rtlUp" value="rtlUp" class="sender-checkbox"><label for="sender-rtlUp">RTL Up (1€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-rbb" value="rbb" class="sender-checkbox"><label for="sender-rbb">RBB (7€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-sat1" value="sat1" class="sender-checkbox"><label for="sender-sat1">Sat.1 (14€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-sixx" value="sixx" class="sender-checkbox"><label for="sender-sixx">sixx (2€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-skyAtlantic" value="skyAtlantic" class="sender-checkbox"><label for="sender-skyAtlantic">Sky Atlantic (2€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-skyCinema" value="skyCinema" class="sender-checkbox"><label for="sender-skyCinema">Sky Cinema (1€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-swrSr3" value="swrSr3" class="sender-checkbox"><label for="sender-swrSr3">SWR SR3 (14€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-superRtl" value="superRtl" class="sender-checkbox"><label for="sender-superRtl">Super RTL (3€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-tagesschau24" value="tagesschau24" class="sender-checkbox"><label for="sender-tagesschau24">tagesschau24 (2€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-tele5" value="tele5" class="sender-checkbox"><label for="sender-tele5">Tele 5 (3€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-togoPlus" value="togoPlus" class="sender-checkbox"><label for="sender-togoPlus">TOGGO plus (1€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-universalTv" value="universalTv" class="sender-checkbox"><label for="sender-universalTv">Universal TV (1€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-vox" value="vox" class="sender-checkbox"><label for="sender-vox">VOX (12€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-wdr" value="wdr" class="sender-checkbox"><label for="sender-wdr">WDR (15€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-zdf" value="zdf" class="sender-checkbox"><label for="sender-zdf">ZDF (62€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-zdfInfo" value="zdfInfo" class="sender-checkbox"><label for="sender-zdfInfo">ZDFinfo (1€/Min)</label></div>
+  <div class="multiselect-option"><input type="checkbox" id="sender-zdfNeo" value="zdfNeo" class="sender-checkbox"><label for="sender-zdfNeo">ZDFneo (3€/Min)</label></div>
+  </div> <!-- Ende von #sender-options -->
+
+<!-- Button zum Zurücksetzen der Sender-Auswahl -->
+<div style="margin-top: 10px;">
+  <button id="clear-senders-button" type="button">📤 Sender-Auswahl zurücksetzen</button>
+</div>
+
+  <div class="multiselect-option">
+
+
+    
+  
+
+</div>
+
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+
+      <!-- Musik-Umfang -->
+      <div class="cc-c2">
+        <div class="nice-form-group">
+          <label for="music-minutes">Geschätzte Musik-Minuten</label>
+          <input type="number" id="music-minutes" min="0" step="0.5" placeholder="z.B. 30" />
+
+
+          <div class="info-text">Schätzung (ca. 30 - 50 Min pro 90-Min-Film) Serie: Schätzung Gesamtminuten für gesamte Serie </div>
+        </div>
+        
+        <div class="nice-form-group">
+          <label for="expected-airings">Erwartete Ausstrahlungen</label>
+  
+<input type="number" id="expected-airings" min="1" step="1" placeholder="z.B. 3" />
+
+<div class="checkbox-entry" style="margin-top: 10px;">
+  <input type="checkbox" id="toggle-individual-airings">
+  <label for="toggle-individual-airings">Individuelle Anzahl pro Sender angeben</label>
+</div>
+<div id="sender-airings-container" class="nice-form-group" style="display: none;"></div>
+
+
+          <div class="info-text">
+            <strong>Richtwerte:</strong> ÖRR: 3-6, Private: 2-4, Streaming: meist 1, Dokumentarfilme: oft weniger
+          </div>
+        </div>
+      </div>
+
+      <!-- Nutzungsrechte -->
+      <div class="cc-c2">
+        <div class="nice-form-group">
+          <label for="usage-territory">Nutzungsgebiet</label>
+          <select id="usage-territory">
+            <option value="deutschland">Deutschland</option>
+            <option value="deufra">Deutschland + Frankreich</option>
+             <option value="dach">DACH</option>
+            <option value="europa">Europa</option>
+             <option value="asien">Asien</option>
+            <option value="weltweit">Weltweit</option>
+          </select>
+        </div>
+
+        <div class="nice-form-group">
+          <label for="usage-exclusivity">Exklusivität</label>
+          <select id="usage-exclusivity">
+            <option value="non-exclusive">Nicht exklusiv - z.B. Production Music</option>
+            <option value="exclusive" selected>Exklusiv</option>
+          </select>
+        </div>
+      </div>
+
+         <!-- Mit Verlag -->
+      <div class="nice-form-group">
+    <label for="with-publisher">Mit Verlag</label>
+    <div class="checkbox-entry">
+        <input type="checkbox" id="with-publisher" class="publisher-checkbox">
+        <label for="with-publisher">Mit Verlag (GEMA-Anteil Composer ca. 64%)</label>
+    </div>
+</div>
+
+<!-- Fremdproduktion (TFS) -->
+<div class="nice-form-group">
+  <label for="fremdproduktion">Produktionsart (Wichtig anzugeben!)</label>
+  <div class="checkbox-entry">
+      <input type="checkbox" id="fremdproduktion" class="publisher-checkbox">
+      <label for="fremdproduktion">GEMA-Werte bei Fremdproduktionen (TFS) - ungefähr</label>
+  </div>
+  <div class="info-text">
+      Standard im Rechner ist TV-Eigen- und Auftragsproduktion (FS). Bei Fremdproduktionen (TFS) werden die GEMA-Werte entsprechend reduziert.
+  </div>
+</div>
+
+
+
+      <!-- Zusätzliche Medien -->
+      <div class="cc-c2">
+        <label><b>Anderes Medium</b></label>
+        <div class="info-text">Kann das Honorar um 10-50% erhöhen</div>
+        <div class="checkbox-columns">
+          <div class="checkbox-entry"><input type="checkbox" class="usage-media" value="streaming" /> Streaming</div>
+          <div class="checkbox-entry"><input type="checkbox" class="usage-media" value="mediathek" /> Mediathek</div>
+          <div class="checkbox-entry"><input type="checkbox" class="usage-media" value="online" /> Online/Social Media</div>
+          <div class="checkbox-entry" id="kino-option"><input type="checkbox" class="usage-media" value="kino" /> Kino</div>
+          <div class="checkbox-entry"><input type="checkbox" class="usage-media" value="dvd" /> DVD/Blu-ray</div>
+        </div>
+      </div>
+
+      <!-- Ergebnis -->
+       
+      <div class="cost-total-amount">
+        <h1>Empfohlenes Honorar: <span id="calculated-budget">0</span> €</h1>
+        
+        
+        <div class="gema-estimate">
+
+          <h3>Geschätzte GEMA-Einnahmen:</h3>
+          <p><strong><span id="gema-estimate">0</span> €</strong> <span id="gema-timeframe"></span></p>
+          <div class="gema-breakdown" id="gema-breakdown"></div>
+          
+<div class="gema-breakdown" id="gema-media-breakdown"></div>
+          <div class="info-text">Basiert auf aktualisierten Minutensätzen der verschiedenen Sender</div>
+        </div>
+        
+        <div class="total-estimate">
+          <h3>Geschätzte Gesamteinnahmen:</h3>
+          <p><strong><span id="total-estimate">0</span> €</strong></p>
+          <div class="info-text">Honorar + geschätzte GEMA-Einnahmen (nur zur groben Orientierung)</div>
+        </div>
+        
+        <div class="warning-box" id="streaming-warning" style="display:none;">
+          <h4>⚠️ Niedrige GEMA-Einnahmen</h4>
+          <p>Bei Streaming-Plattformen sind die GEMA-Einnahmen sehr niedrig. Das Honorar sollte entsprechend höher verhandelt werden.</p>
+        </div>
+
+        <div class="warning-box" id="dokumentarfilm-warning" style="display:none;">
+          <h4>💡 Dokumentarfilm-Hinweis</h4>
+          <p>Bei Dokumentarfilmen sind die Budgets oft begrenzt. Berücksichtigen Sie mögliche spätere Verwertung und GEMA-Einnahmen bei der Preisgestaltung.</p>
+        </div>
+
+        <div class="warning-box" id="arte-warning" style="display:none;">
+          <h4>ℹ️ ARTE-Besonderheit</h4>
+          <p>ARTE-Produktionen haben oft niedrigere GEMA-Ausschüttungen durch die SACEM (französische Verwertungsgesellschaft). Dies sollte bei der Honorarverhandlung berücksichtigt werden.</p>
+        </div>
+
+        <div class="warning-box" id="dumping-warning" style="display:none;">
+  <h4>⚠️ Verdacht auf Dumpingpreis</h4>
+  <p>Die eingegebene Pauschale liegt unter 5.000 €. Bitte prüfen, ob dies realistisch und fair kalkuliert ist.</p>
+
+
+</div>
+
+
+      </div>
+    </section>
+  </main>
+
+
+  
+<div id="honorar-float-overlay" style="display:none;">
+  Empfohlenes Honorar: <span id="honorar-float-value">0</span> €
+</div>
+
+<script src="script.js"></script>
+
+
+</body>
+</html>
